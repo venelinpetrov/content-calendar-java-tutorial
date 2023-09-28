@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import dev.vpetrov.contentcalendar.model.Content;
 import dev.vpetrov.contentcalendar.repository.ContentCollectionRepository;
+import jakarta.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -44,7 +45,7 @@ public class ContentController {
     }
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody Content content) {
+    public void create(@Valid @RequestBody Content content) {
         repository.create(content);
     }
 
