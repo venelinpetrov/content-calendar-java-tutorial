@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import dev.vpetrov.contentcalendar.model.Content;
-import dev.vpetrov.contentcalendar.repository.ContentCollectionRepository;
+import dev.vpetrov.contentcalendar.repository.ContentRepository;
 import jakarta.validation.Valid;
 
 @CrossOrigin
@@ -24,9 +24,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/content")
 public class ContentController {
 
-    private final ContentCollectionRepository repository;
+    private final ContentRepository repository;
 
-    public ContentController(ContentCollectionRepository repository) {
+    public ContentController(ContentRepository repository) {
         this.repository = repository;
     }
 
@@ -46,7 +46,7 @@ public class ContentController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public void create(@Valid @RequestBody Content content) {
-        repository.create(content);
+        repository.save(content);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -55,7 +55,7 @@ public class ContentController {
         if(!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
-        repository.update(content);
+        repository.save(content);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -64,7 +64,7 @@ public class ContentController {
         if(!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
 }
